@@ -120,7 +120,7 @@ class Game
             thirst = 100;
         }
 
-        day++;
+        NextDay();
     }
 
     void CheckDeath()
@@ -128,6 +128,20 @@ class Game
         if (hunger >= 100 || thirst >= 100 || life <= 0)
         {
             isAlive = false;
+        }
+    }
+
+    void NextDay()
+    {
+        day++;
+
+        if(thirst > 50)
+        {
+            life -= 5;
+        }
+        if (hunger > 50)
+        {
+            hunger -= 5;
         }
     }
 }
