@@ -8,6 +8,8 @@ int day = 1;
 const int objectiveDays = 30;
 bool isAlive = true;
 bool run = true;
+List<Foods> foodinventory = new List<Foods>();
+List<Drinks> drinkinventory = new List<Drinks>();
 
 enum Actions 
 {
@@ -43,6 +45,8 @@ enum Drinks
     Vodka
 }
 
+
+
 class Game
 {
     int HungerKiller(Foods f, int hunger)
@@ -70,3 +74,4 @@ class Game
             }
         }
     }
+}
