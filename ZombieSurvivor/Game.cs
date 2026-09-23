@@ -93,6 +93,7 @@ public class Game
             default: return 0;
         }
     }
+
     int ThirstKiller(Drinks d)
     {
         switch (d)
@@ -190,7 +191,7 @@ public class Game
                 case ExplorationEvents.MedicalKit:
                     Console.WriteLine("You found a medical kit");
                     life += 15;
-                    if (life>= 100)
+                    if (life >= 100)
                     {
                         life = 100;
                     }
