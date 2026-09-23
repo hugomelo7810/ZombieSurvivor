@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
+Game game = new Game();
+for (int i = 0; i < 10; i++)
+{
+    Console.WriteLine($"Exploration {i + 1}. ");
+    game.Explore();
+}
+
 // Creating variables player stats
 
-class Game
+public class Game
 {
-
     int life = 100;
     int hunger = 0;
     int thirst = 0;
@@ -18,7 +24,9 @@ class Game
 
     List<Drinks> drinkInventory = new List<Drinks>();
 
-    enum Actions
+    Random rng = new Random();
+
+    public enum Actions
     {
         Run,
         Explore,
@@ -26,7 +34,7 @@ class Game
         Drink
     }
 
-    enum ExplorationEvents
+    public enum ExplorationEvents
     {
         NothingFound,
         Food,
@@ -36,7 +44,7 @@ class Game
         AnimalBattle
     }
 
-    enum Foods
+    public enum Foods
     {
         Fruit,
         Hamburguer,
@@ -46,12 +54,30 @@ class Game
         Pasta
     }
 
-    enum Drinks
+    public enum Drinks
     {
         Water,
         Soda,
         Juice,
         Vodka
+    }
+
+    public Foods SortFood()
+    {
+        int aleatorieNumberFood = rng.Next(0, 6);
+        return (Foods)aleatorieNumberFood;
+    }
+
+    public Drinks SortDrink()
+    {
+        int aleatorieNumberDrink = rng.Next(0, 4);
+        return (Drinks)aleatorieNumberDrink;
+    }
+
+    public ExplorationEvents SortEvent()
+    {
+        int aleatorieNumberEvent = rng.Next(0, 6);
+        return (ExplorationEvents)aleatorieNumberEvent;
     }
 
     int HungerKiller(Foods f)
@@ -123,11 +149,62 @@ class Game
         NextDay();
     }
 
+    public void Explore()
+    {
+        int quantityEvents = rng.Next(1, 4);
+        Console.WriteLine($"Quantidade de eventos hoje: {quantityEvents}");
+
+        for (int i = 0; i < quantityEvents; i++)
+        {
+            ExplorationEvents events = SortEvent();
+
+            switch (events)
+            {
+                case ExplorationEvents.NothingFound:
+                    Console.WriteLine("You explored but found nothing.");
+                    break;
+                case ExplorationEvents.Drink:
+                    Console.WriteLine("You found a drink");
+                    break;
+                case ExplorationEvents.Food:
+                    Console.WriteLine("You found a food");
+                    break;
+                case ExplorationEvents.AnimalBattle:
+                    Console.WriteLine("You battled with an animal.");
+                    life -= 6;
+                    if (life <= 0)
+                    {
+                        life = 0;
+                    }
+                    break;
+                case ExplorationEvents.ZombieAttack:
+                    Console.WriteLine("You were attacked by a zombie.");
+
+                    life -= 10;
+
+                    if (life <= 0)
+                    {
+                        life = 0;
+                    }
+                    break;
+                case ExplorationEvents.MedicalKit:
+                    Console.WriteLine("You found a medical kit");
+                    life += 15;
+                    if (life>= 100)
+                    {
+                        life = 100;
+                    }
+                    break;
+            }
+        }
+    }
+
     void CheckDeath()
     {
-        if (hunger >= 100 || thirst >= 100 || life <= 0)
+        if (life <= 0)
         {
             isAlive = false;
+            Console.WriteLine("You died");
         }
     }
 
@@ -135,7 +212,7 @@ class Game
     {
         day++;
 
-        if(thirst > 50)
+        if (thirst > 50)
         {
             life -= 5;
         }
